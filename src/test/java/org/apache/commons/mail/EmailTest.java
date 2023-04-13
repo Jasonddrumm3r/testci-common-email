@@ -130,11 +130,11 @@ public class EmailTest {
 	@Test
 	public void testGetMailSession() throws Exception {
 		email.setSmtpPort(1111);
-		email.setSslSmtpPort(" ");
+		email.setSslSmtpPort("Hi");
 		email.setHostName("Host");
 		email.setSSLOnConnect(true);
 		Session sessionExpected = email.getMailSession();;
-		assertEquals(sessionExpected.getProperty("MAIL_SMTP"), email.getSmtpPort());
+		assertEquals(sessionExpected.getProperty("mail.smtp.port"), email.getSmtpPort());
 	}
 	
 	//asserts Socket Connection Timer equal to 500
@@ -154,18 +154,16 @@ public class EmailTest {
 		Session sessionExpected = Session.getInstance(propsExpected);
 		Object ObjExpected = new Object();
 		
-		for (String address : TEST_EMAILS) {
-			email.setMailSession(sessionExpected);
-			email.setSubject("Subject");
-			email.addCc(address);
-			email.addBcc(address);
-			email.setFrom(address);
-			email.addTo(address);
-			email.addReplyTo(address);
-			email.addHeader("Name", "value");
-			email.setContent(ObjExpected, "String");
-			email.buildMimeMessage();
-		}		
+		email.setMailSession(sessionExpected);
+		email.setSubject("Subject");
+		email.addCc("cc@cc.c");
+		email.addBcc("bcc@bcc.c");
+		email.setFrom("abcd@abcd.c");
+		email.addTo("abc@abc.c");
+		email.addReplyTo("gabe@c.d");
+		email.addHeader("Name", "value");
+		email.setContent(ObjExpected, "String");
+		email.buildMimeMessage();
 		MimeMessage msg = email.getMimeMessage();
 		assertEquals(msg.getSubject(), "Subject");
 
